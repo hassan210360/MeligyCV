@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company 01 Product Upload</title>
+
+<style>
+body{
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#f7f3ee;
+    padding:30px;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,0,0,.1);
+}
+h1{
+    color:#8b5e3c;
+}
+.drop-zone{
+    border:3px dashed #8b5e3c;
+    border-radius:15px;
+    padding:50px;
+    text-align:center;
+    background:#fff8f1;
+    cursor:pointer;
+}
+.drop-zone.dragover{
+    background:#ffe7cc;
+}
+.file-list{
+    margin-top:20px;
+}
+.file-item{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+.button{
+    display:inline-block;
+    background:#25D366;
+    color:white;
+    padding:12px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-top:15px;
+}
+.instructions{
+    background:#f5f5f5;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Company 01 Upload Portal</h1>
+
+<div class="instructions">
+<b>Instructions:</b>
+<ol>
+<li>Drag product images here.</li>
+<li>Ensure JPG format if possible.</li>
+<li>Rename products as product1.jpg, product2.jpg etc.</li>
+<li>Click "Open Upload Folder".</li>
+<li>Upload files to the SharePoint folder.</li>
+</ol>
+</div>
+
+<div class="drop-zone" id="dropZone">
+Drag & Drop Images Here
+<br><br>
+or Click to Select
+<input type="file" id="fileInput" multiple accept="image/*" hidden>
+</div>
+
+<div class="file-list" id="fileList"></div>
+
+<a class="button"
+target="_blank"
+href="https://psdp-my.sharepoint.com/personal/hassan_psdp_onmicrosoft_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fhassan%5Fpsdp%5Fonmicrosoft%5Fcom%2FDocuments%2Fshetrade%2Fcompany01%2Fassets&viewid=dddf63c5%2Da9bc%2D452d%2D9c92%2Dd465b5fd4a10">
+Open Upload Folder
+</a>
+
+</div>
+
+<script>
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const fileList = document.getElementById('fileList');
+
+dropZone.addEventListener('click',()=>{
+    fileInput.click();
+});
+
+dropZone.addEventListener('dragover',(e)=>{
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave',()=>{
+    dropZone.classList.remove('dragover');
+});
+
+dropZone.addEventListener('drop',(e)=>{
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    displayFiles(e.dataTransfer.files);
+});
+
+fileInput.addEventListener('change',(e)=>{
+    displayFiles(e.target.files);
+});
+
+function displayFiles(files){
+
+    fileList.innerHTML='';
+
+    [...files].forEach((file,index)=>{
+
+        let div=document.createElement('div');
+        div.className='file-item';
+
+        div.innerHTML=`
+            <b>Suggested Name:</b>
+            product${index+1}.jpg
+            <br>
+            Original: ${file.name}
+            <br>
+            Size: ${(file.size/1024/1024).toFixed(2)} MB
+        `;
+
+        fileList.appendChild(div);
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
